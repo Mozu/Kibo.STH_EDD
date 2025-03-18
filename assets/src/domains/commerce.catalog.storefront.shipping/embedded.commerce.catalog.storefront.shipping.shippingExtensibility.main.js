@@ -123,6 +123,8 @@ function buildKiboTransitTimesFromEasypost(kiboServices, epResponse, itemIds) {
   //For each carrier result in EasyPost response...
   epResponse.results.forEach(function(result) {
     const shippingMethod = formatServiceType(result.carrier, result.service);
+    console.debug('ep carrier/service: ' + result.carrier + ', ' + result.service);
+    console.debug('translated to servicetype: ' + shippingMethod);
 
     //Ignore service types kibo doesnt want
     if(!kiboServices.some(service => service === shippingMethod)) {
@@ -130,7 +132,7 @@ function buildKiboTransitTimesFromEasypost(kiboServices, epResponse, itemIds) {
     }
 
     //Form the Kibo EstimatedDeliveryDate object for the current rate,
-    let rateEdd = new EstimatedDeliveryDate(FULFILLMENT_METHOD_SHIP, shippingMethod, null, result.easypost_time_in_transit_data.easypost_estimated_delivery_date, null);
+    let rateEdd = new EstimatedDeliveryDate(FULFILLMENT_METHOD_SHIP, shippingMethod, result.easypost_time_in_transit_data.easypost_estimated_delivery_date, null);
 
     const carrierIndex = transitTimes.findIndex(x => x.carrierId == result.carrier);
     if(carrierIndex != -1) {
