@@ -1,0 +1,27 @@
+{
+  "name": "SthEddExtensibility",
+  "version": "1.1.0",
+  "description": "STH EDD Extensibility Test",
+  "devDependencies": {
+    "grunt": "^1.6.1",
+    "grunt-browserify": "^6.0.0",
+    "grunt-contrib-jshint": "^3.2.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-mocha-test": "^0.13.3",
+    "grunt-mozu-appdev-sync": "^2.4.2",
+    "load-grunt-tasks": "^5.1.0",
+    "mocha": "^11.1.0",
+    "mozu-action-helpers": "^0.5.6",
+    "mozu-action-simulator": "^1.6.3",
+    "time-grunt": "^2.0.0"
+  },
+  "dependencies": {
+    "@easypost/api": "^7.5.5",
+    "babel-polyfill": "^6.26.0",
+    "easy-guid": "^0.1.3",
+    "mozu-node-sdk": "^2.15.13",
+    "needle": "^3.3.1",
+    "underscore": "^1.13.7",
+    "xml2js": "^0.6.2"
+  }
+}
