@@ -27,7 +27,8 @@ async function route(context, callback) {
   }
 }
 
-function getCarriersForRequestServiceTypes(request){
+//Return list of unique carriers for given request
+function getCarriersForRequest(request){
   const carriers = [];
 
   //TransitTimesRequest.ShippingServiceTypes will be formatted like <carrier>_<servicetype>
@@ -114,15 +115,16 @@ function formatServiceType(carrier, service) {
 
 }
 
-//Given an EasyPost SmartDeliverByResponse, build a list of Kibo CarrierTransitTimes with populated EstimatedDeliveryDates
-function buildKiboTransitTimesFromEasypost(kiboServices, epResponse) {
+//Given an EasyPost SmartDeliverByResponse, build a list of populated Kibo CarrierTransitTimes
+function buildKiboTransitTimesFromEasypost(kiboServices, epResponse, itemIds) {
   // will populate transitTimes with list of CarrierTransitTimes
   let transitTimes = [];
 
   //For each carrier result in EasyPost response...
   epResponse.results.forEach(function(result) {
-
     const shippingMethod = formatServiceType(result.carrier, result.service);
+    console.debug('ep carrier/service: ' + result.carrier + ', ' + result.service);
+    console.debug('translated to servicetype: ' + shippingMethod);
 
     //Ignore service types kibo doesnt want
     if(!kiboServices.some(service => service === shippingMethod)) {
@@ -130,7 +132,7 @@ function buildKiboTransitTimesFromEasypost(kiboServices, epResponse) {
     }
 
     //Form the Kibo EstimatedDeliveryDate object for the current rate,
-    let rateEdd = new EstimatedDeliveryDate(FULFILLMENT_METHOD_SHIP, shippingMethod, null, result.easypost_time_in_transit_data.easypost_estimated_delivery_date, null);
+    let rateEdd = new EstimatedDeliveryDate(FULFILLMENT_METHOD_SHIP, shippingMethod, result.easypost_time_in_transit_data.easypost_estimated_delivery_date, null);
 
     const carrierIndex = transitTimes.findIndex(x => x.carrierId == result.carrier);
     if(carrierIndex != -1) {
@@ -141,6 +143,7 @@ function buildKiboTransitTimesFromEasypost(kiboServices, epResponse) {
     else {
       let carrierTransitTimes = new CarrierTransitTimes();
       carrierTransitTimes.carrierId = result.carrier.toLowerCase(); //kibo uses lowercase carrierIds
+      carrierTransitTimes.itemIds = itemIds; //Easypost SmartDeliverBy request doesnt take item info, so all are applicable
       carrierTransitTimes.estimatedDeliveryDates.push(rateEdd);
       transitTimes.push(carrierTransitTimes);
     }
@@ -160,8 +163,6 @@ function filterServiceTypes(transitTimesResponse, shippingServiceTypes) {
   return transitTimesResponse;
 }
 
-// end section -- transittimes helpers
-
 /*
 Given a Kibo TransitTimesRequest,
 gets estimated delivery dates from EasyPost, then builds and returns a Kibo TransitTimesResponse
@@ -173,20 +174,20 @@ but Kibo will ensure service types that arent allowed are removed from final res
  */
 async function getTransitTimes(context, request) {
 
-  //Delivery supported by a different application
+  //Delivery supported by a different application. Alternatives which this app supports are null and Ship
   if(request.fulfillmentMethod == FULFILLMENT_METHOD_DELIVERY) {
-    //if request doesnt want STH, return empty list
     return new TransitTimesResponse([]);
   }
 
   var client = getEasyPostClient(context.credentials);
-  const carriers = getCarriersForRequestServiceTypes(request); //eg UPS instead of UPS_GROUND ADVANTAGE
+  const carriers = getCarriersForRequest(request);
   const easyPostRequest = new SmartDeliveryByRequest(request.originAddress.postalOrZipCode, request.destinationAddress.postalOrZipCode, request.shipDate.split('T')[0], carriers);
   return client.getSmartDeliverBy(easyPostRequest)
     .then(function (result) {
       console.log('----- EASYPOST RESPONSE -----');
       console.log(JSON.stringify(result));
-      const carrierTransitTimes = buildKiboTransitTimesFromEasypost(request.shippingServiceTypes, result);
+      const itemIds = request.items.map(item => item.itemId);
+      const carrierTransitTimes = buildKiboTransitTimesFromEasypost(request.shippingServiceTypes, result, itemIds);
       const kiboTransitTimeResponse = buildKiboTransitTimesResponse(carrierTransitTimes);
       console.log('----- FINAL RESPONSE -----');
       console.log(JSON.stringify(kiboTransitTimeResponse));
