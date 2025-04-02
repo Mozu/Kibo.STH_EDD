@@ -23,7 +23,7 @@ async function route(context, callback) {
   console.log(`DEBUG method: ${method}, request context: `, requestContext);
 
   if (method === 'transit-times') {
-    return await getTransitTimes(requestContext, requestPayload);
+    return await getTransitTimes(context, requestPayload);
   }
 }
 
@@ -41,16 +41,16 @@ function getCarriersForRequest(request){
   return carriers;
 }
 
-function getEasyPostClient(credentials) {
-  var config = getConfig(credentials);
+function getEasyPostClient(context) {
+  const config = getConfig(context);
   return new EasyPostSdk(config, true);
 }
 
-function getConfig(credentials) {
-  const epApiKeyCredKey = 'easypostapikey';
-  const epApiKey = credentials.find(x => x.key == epApiKeyCredKey).value;
+function getConfig(context) {
+  //MZDB SecureAppData
+  const secureData = context.getSecureAppData('easypostConfig');
   return {
-    apiKey: epApiKey
+    apiKey: secureData.apiKey
   };
 }
 
@@ -196,7 +196,7 @@ async function getTransitTimes(context, request) {
   //will be used when forming response, EasyPost doesnt take item info, so all are applicable
   const itemIds = request.items.map(item => item.itemId);
 
-  var client = getEasyPostClient(context.credentials);
+  const client = getEasyPostClient(context);
   const carriers = getCarriersForRequest(request);
   const plannedShipDate = request.shipDate.split('T')[0];
   const easyPostRequest = new SmartDeliveryByRequest(request.originAddress.postalOrZipCode, request.destinationAddress.postalOrZipCode, plannedShipDate, carriers);
