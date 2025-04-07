@@ -214,6 +214,6 @@ async function getTransitTimes(context, request) {
       return processErrorResponse(error, itemIds);
     }).catch(function (err) {
       console.error("---------EP DelivDates Error catch-----------", err);
-      return processErrorResponse(error, itemIds);
+      return processErrorResponse(err, itemIds);
     });
 }
