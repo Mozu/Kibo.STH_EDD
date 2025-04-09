@@ -1,7 +1,7 @@
 //var easypostWrapper = require('../../easypost/apiwrapper');
 const { EasyPostSdk } = require('../../easypost/easypostsdk');
 const {forEach} = require("underscore");
-const {EstimatedDeliveryDate, TransitTimesResponse, CarrierTransitTimes} = require("../../models/TransitTimesResponse");
+const {EstimatedDeliveryDate, TransitTimesResponse, CarrierTransitTimes, ValidationMessage } = require("../../models/TransitTimesResponse");
 const {SmartDeliveryByRequest} = require("../../easypost/models/SmartDeliverByRequest");
 
 module.exports = function (context, callback) {
@@ -23,7 +23,7 @@ async function route(context, callback) {
   console.log(`DEBUG method: ${method}, request context: `, requestContext);
 
   if (method === 'transit-times') {
-    return await getTransitTimes(requestContext, requestPayload);
+    return await getTransitTimes(context, requestPayload);
   }
 }
 
@@ -41,16 +41,16 @@ function getCarriersForRequest(request){
   return carriers;
 }
 
-function getEasyPostClient(credentials) {
-  var config = getConfig(credentials);
+function getEasyPostClient(context) {
+  const config = getConfig(context);
   return new EasyPostSdk(config, true);
 }
 
-function getConfig(credentials) {
-  const epApiKeyCredKey = 'easypostapikey';
-  const epApiKey = credentials.find(x => x.key == epApiKeyCredKey).value;
+function getConfig(context) {
+  //MZDB SecureAppData
+  const secureData = context.getSecureAppData('easypostConfig');
   return {
-    apiKey: epApiKey
+    apiKey: secureData.apiKey
   };
 }
 
@@ -116,9 +116,9 @@ function formatServiceType(carrier, service) {
 }
 
 //Given an EasyPost SmartDeliverByResponse, build a list of populated Kibo CarrierTransitTimes
-function buildKiboTransitTimesFromEasypost(kiboServices, epResponse, itemIds) {
+function buildCarrierTransitTimesList(kiboServices, epResponse, itemIds) {
   // will populate transitTimes with list of CarrierTransitTimes
-  let transitTimes = [];
+  let carrierTransitTimesList = [];
 
   //For each carrier result in EasyPost response...
   epResponse.results.forEach(function(result) {
@@ -134,10 +134,10 @@ function buildKiboTransitTimesFromEasypost(kiboServices, epResponse, itemIds) {
     //Form the Kibo EstimatedDeliveryDate object for the current rate,
     let rateEdd = new EstimatedDeliveryDate(FULFILLMENT_METHOD_SHIP, shippingMethod, result.easypost_time_in_transit_data.easypost_estimated_delivery_date, null);
 
-    const carrierIndex = transitTimes.findIndex(x => x.carrierId == result.carrier);
+    const carrierIndex = carrierTransitTimesList.findIndex(x => x.carrierId == result.carrier);
     if(carrierIndex != -1) {
       //If carrier already present in transitTimes list, update it
-      transitTimes[carrierIndex].estimatedDeliveryDates.push(rateEdd);
+      carrierTransitTimesList[carrierIndex].estimatedDeliveryDates.push(rateEdd);
     }
     //If carrier not already present, add it
     else {
@@ -145,22 +145,36 @@ function buildKiboTransitTimesFromEasypost(kiboServices, epResponse, itemIds) {
       carrierTransitTimes.carrierId = result.carrier.toLowerCase(); //kibo uses lowercase carrierIds
       carrierTransitTimes.itemIds = itemIds; //Easypost SmartDeliverBy request doesnt take item info, so all are applicable
       carrierTransitTimes.estimatedDeliveryDates.push(rateEdd);
-      transitTimes.push(carrierTransitTimes);
+      carrierTransitTimesList.push(carrierTransitTimes);
     }
   });
 
-  return transitTimes;
+  return carrierTransitTimesList;
 }
 
 //Given list of CarrierTransitTimes, build a TransitTimesResponse
-function buildKiboTransitTimesResponse(carrierTransitTimes) {
+function buildTransitTimesResponse(carrierTransitTimes) {
   const kiboResp = new TransitTimesResponse(carrierTransitTimes);
   return kiboResp;
 }
 
+//TODO not used, remove?
 function filterServiceTypes(transitTimesResponse, shippingServiceTypes) {
   //TODO filter
   return transitTimesResponse;
+}
+
+// Errors for this app can be returned to Kibo in Messages field
+function processErrorResponse(error, itemIds) {
+  const message = 'ErrorCode: ' + error.error.code + ', ErrorMessage: ' + error.error.message;
+  const validationMessage = new ValidationMessage("Error", message, null);
+  let erroredEdd = new EstimatedDeliveryDate(FULFILLMENT_METHOD_SHIP, null, null, null, [validationMessage]);
+  let erroredCarrierTransitTimes = new CarrierTransitTimes();
+  erroredCarrierTransitTimes.itemIds = itemIds;
+  erroredCarrierTransitTimes.estimatedDeliveryDates.push(erroredEdd);
+  const resp = new TransitTimesResponse([erroredCarrierTransitTimes]);
+  console.debug('FINAL ERROR RESPONSE: ' + JSON.stringify(resp));
+  return resp;
 }
 
 /*
@@ -179,24 +193,27 @@ async function getTransitTimes(context, request) {
     return new TransitTimesResponse([]);
   }
 
-  var client = getEasyPostClient(context.credentials);
+  //will be used when forming response, EasyPost doesnt take item info, so all are applicable
+  const itemIds = request.items.map(item => item.itemId);
+
+  const client = getEasyPostClient(context);
   const carriers = getCarriersForRequest(request);
-  const easyPostRequest = new SmartDeliveryByRequest(request.originAddress.postalOrZipCode, request.destinationAddress.postalOrZipCode, request.shipDate.split('T')[0], carriers);
+  const plannedShipDate = request.shipDate.split('T')[0];
+  const easyPostRequest = new SmartDeliveryByRequest(request.originAddress.postalOrZipCode, request.destinationAddress.postalOrZipCode, plannedShipDate, carriers);
   return client.getSmartDeliverBy(easyPostRequest)
     .then(function (result) {
-      console.log('----- EASYPOST RESPONSE -----');
-      console.log(JSON.stringify(result));
-      const itemIds = request.items.map(item => item.itemId);
-      const carrierTransitTimes = buildKiboTransitTimesFromEasypost(request.shippingServiceTypes, result, itemIds);
-      const kiboTransitTimeResponse = buildKiboTransitTimesResponse(carrierTransitTimes);
-      console.log('----- FINAL RESPONSE -----');
-      console.log(JSON.stringify(kiboTransitTimeResponse));
+      console.debug('----- EASYPOST RESPONSE -----');
+      console.debug(JSON.stringify(result));
+      const carrierTransitTimes = buildCarrierTransitTimesList(request.shippingServiceTypes, result, itemIds);
+      const kiboTransitTimeResponse = buildTransitTimesResponse(carrierTransitTimes);
+      console.debug('----- FINAL RESPONSE -----');
+      console.debug(JSON.stringify(kiboTransitTimeResponse));
       return kiboTransitTimeResponse;
     }, function (error) {
       console.error("---------EP DelivDates Error-----------", error);
-      throw error;
+      return processErrorResponse(error, itemIds);
     }).catch(function (err) {
       console.error("---------EP DelivDates Error catch-----------", err);
-      throw err;
+      return processErrorResponse(err, itemIds);
     });
 }

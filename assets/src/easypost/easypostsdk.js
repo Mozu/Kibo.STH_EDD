@@ -19,8 +19,8 @@ EasyPost.prototype.getSmartDeliverBy = async function(body) {
   }
   catch (e) {
     console.log('Error in getSmartDeliverBy: ', e);
-    //throw e;
-    return {};
+    throw e;
+    //return {};
   }
 };
 
