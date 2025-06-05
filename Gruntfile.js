@@ -1,4 +1,7 @@
 module.exports = function (grunt) {
+    // Monkey patch for Node.js compatibility
+    require('./nodeutil-patch');
+    
     require('process').env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     'use strict';
     grunt.loadTasks('./tasks');

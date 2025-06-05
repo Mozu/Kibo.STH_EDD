@@ -1,5 +1,5 @@
 //var easypostWrapper = require('../../easypost/apiwrapper');
-const { EasyPostSdk } = require('../../easypost/easypostsdk');
+const { EasyPostSdk } = require('../../easypost/mockEasyPostSdk');
 const {forEach} = require("underscore");
 const {EstimatedDeliveryDate, TransitTimesResponse, CarrierTransitTimes, ValidationMessage } = require("../../models/TransitTimesResponse");
 const {SmartDeliveryByRequest} = require("../../easypost/models/SmartDeliverByRequest");
@@ -25,6 +25,7 @@ async function route(context, callback) {
   if (method === 'transit-times') {
     return await getTransitTimes(context, requestPayload);
   }
+  throw new Error(`Unsupported method: ${method}. Supported methods are: transit-times`);
 }
 
 //Return list of unique carriers for given request

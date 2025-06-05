@@ -2,6 +2,11 @@
   "name": "SthEddExtensibility",
   "version": "1.1.0",
   "description": "STH EDD Extensibility Test",
+  "scripts": {
+    "test": "mocha \"assets/test/**/*.test.js\"",
+    "build": "npx grunt build",
+    "grunt-test": "npx grunt test"
+  },
   "devDependencies": {
     "grunt": "^1.6.1",
     "grunt-browserify": "^6.0.0",
@@ -13,6 +18,7 @@
     "mocha": "^11.1.0",
     "mozu-action-helpers": "^0.5.6",
     "mozu-action-simulator": "^1.6.3",
+    "sinon": "^20.0.0",
     "time-grunt": "^2.0.0"
   },
   "dependencies": {

@@ -2,12 +2,12 @@
   "exports": [
     {
       "id": "embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main",
-      "virtualPath": "./dist\\commerce.catalog.storefront.shipping.manifest.all.js",
+      "virtualPath": "./dist/commerce.catalog.storefront.shipping.manifest.all.js",
       "actionId": "embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main"
     },
     {
       "id": "appInstall",
-      "virtualPath": "./dist\\platform.applications.manifest.all.js",
+      "virtualPath": "./dist/platform.applications.manifest.all.js",
       "actionId": "embedded.platform.applications.install"
     }
   ]

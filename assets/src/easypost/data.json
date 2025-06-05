@@ -1,0 +1,128 @@
+[
+  {
+    "serviceCode": "TSAZS225926034",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926035",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 5
+  },
+  {
+    "serviceCode": "TSAZS225926036",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 6
+  },
+  { 
+    "serviceCode": "TSAZS225926037",
+    "fromZip": 10016,
+    "toZip": "L5G 2T1",
+    "daysInTransit": 7
+  },
+  {
+    "serviceCode": "TSAZS225926037",
+    "fromZip": 75007,
+    "toZip": "L5G 2T1",
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926038",
+    "fromZip": 10016,
+    "toZip": "L5G 2T1",
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926038",
+    "fromZip": 75007,
+    "toZip": 66062,
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926038",
+    "fromZip": "H3Z 2J7",
+    "toZip": "L5G 2T1",
+    "daysInTransit": 2
+  },
+  {
+    "serviceCode": "TSAZS225926038",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 2
+  },
+  {
+    "serviceCode": "TSAZS225926038",
+    "fromZip": 75007,
+    "toZip": "L5G 2T1",
+    "daysInTransit": 1
+  },
+  {
+    "serviceCode": "TSAZS225926038",
+    "fromZip": "H3Z 2J7",
+    "toZip": 66062,
+    "daysInTransit": 1
+  },
+  {
+    "serviceCode": "TSAZS225926039",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 10
+  },
+  {
+    "serviceCode": "TSAZS225926040",
+    "fromZip": 10016,
+    "toZip": 8500,
+    "daysInTransit": 9
+  },
+  {
+    "serviceCode": "TSAZS225926041",
+    "fromZip": 10016,
+    "toZip": "L5G 2T1",
+    "daysInTransit": 14
+  },
+  {
+    "serviceCode": "TSAZS225926042",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926043",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926044",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926045",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 4
+  },
+  {
+    "serviceCode": "TSAZS225926046",
+    "fromZip": 10016,
+    "toZip": 66062,
+    "daysInTransit": 6
+  },
+  {
+    "serviceCode": "TSAZS225926047",
+    "fromZip": 10016,
+    "toZip": 8500,
+    "daysInTransit": 10
+  },
+  {
+    "serviceCode": "TSAZS225926048",
+    "fromZip": 10016,
+    "toZip": "L5G 2T1",
+    "daysInTransit": 5
+  }
+]
