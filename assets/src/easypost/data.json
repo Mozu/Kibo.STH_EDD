@@ -1,128 +1,86 @@
 [
   {
-    "serviceCode": "TSAZS225926034",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 4
+    "fromPostalCode": 66062,
+    "toPostalCode": "M6A 2T9",
+    "daysInTransit": "2",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926035",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 5
+    "fromPostalCode": 66062,
+    "toPostalCode": "M5S 2C6",
+    "daysInTransit": "2",
+      "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926036",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 6
-  },
-  { 
-    "serviceCode": "TSAZS225926037",
-    "fromZip": 10016,
-    "toZip": "L5G 2T1",
-    "daysInTransit": 7
+    "fromPostalCode": 66062,
+    "toPostalCode": "R2C 0P3",
+    "daysInTransit": "2",
+      "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926037",
-    "fromZip": 75007,
-    "toZip": "L5G 2T1",
-    "daysInTransit": 4
+    "fromPostalCode": 8500,
+    "toPostalCode": "M6A 2T9",
+    "daysInTransit": "5",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926038",
-    "fromZip": 10016,
-    "toZip": "L5G 2T1",
-    "daysInTransit": 4
+    "fromPostalCode": 8500,
+    "toPostalCode": "M5S 2C6",
+    "daysInTransit": "5",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926038",
-    "fromZip": 75007,
-    "toZip": 66062,
-    "daysInTransit": 4
+    "fromPostalCode": 8500,
+    "toPostalCode": "R2C 0P3",
+    "daysInTransit": "5",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926038",
-    "fromZip": "H3Z 2J7",
-    "toZip": "L5G 2T1",
-    "daysInTransit": 2
+    "fromPostalCode": 8500,
+    "toPostalCode": 8790,
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926038",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 2
+    "fromPostalCode": 8500,
+    "toPostalCode": "0268",
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926038",
-    "fromZip": 75007,
-    "toZip": "L5G 2T1",
-    "daysInTransit": 1
+    "fromPostalCode": "L5G 2T1",
+    "toPostalCode": "M6A 2T9",
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926038",
-    "fromZip": "H3Z 2J7",
-    "toZip": 66062,
-    "daysInTransit": 1
+    "fromPostalCode": "L5G 2T1",
+    "toPostalCode": "M5S 2C6",
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926039",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 10
+    "fromPostalCode": "L5G 2T1",
+    "toPostalCode": "R2C 0P3",
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926040",
-    "fromZip": 10016,
-    "toZip": 8500,
-    "daysInTransit": 9
+    "fromPostalCode": "V38 4H3",
+    "toPostalCode": "M6A 2T9",
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926041",
-    "fromZip": 10016,
-    "toZip": "L5G 2T1",
-    "daysInTransit": 14
+    "fromPostalCode": "V38 4H3",
+    "toPostalCode": "M5S 2C6",
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   },
   {
-    "serviceCode": "TSAZS225926042",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 4
-  },
-  {
-    "serviceCode": "TSAZS225926043",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 4
-  },
-  {
-    "serviceCode": "TSAZS225926044",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 4
-  },
-  {
-    "serviceCode": "TSAZS225926045",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 4
-  },
-  {
-    "serviceCode": "TSAZS225926046",
-    "fromZip": 10016,
-    "toZip": 66062,
-    "daysInTransit": 6
-  },
-  {
-    "serviceCode": "TSAZS225926047",
-    "fromZip": 10016,
-    "toZip": 8500,
-    "daysInTransit": 10
-  },
-  {
-    "serviceCode": "TSAZS225926048",
-    "fromZip": 10016,
-    "toZip": "L5G 2T1",
-    "daysInTransit": 5
+    "fromPostalCode": "V38 4H3",
+    "toPostalCode": "R2C 0P3",
+    "daysInTransit": "1",
+    "serviceCode": "usps_priority"
   }
 ]

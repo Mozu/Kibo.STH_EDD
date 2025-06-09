@@ -6,6 +6,11 @@
       "actionId": "embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main"
     },
     {
+      "id": "embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main.mock",
+      "virtualPath": "./dist/commerce.catalog.storefront.shipping.manifest.all.js",
+      "actionId": "embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main"
+    },
+    {
       "id": "appInstall",
       "virtualPath": "./dist/platform.applications.manifest.all.js",
       "actionId": "embedded.platform.applications.install"

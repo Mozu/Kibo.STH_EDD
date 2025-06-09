@@ -2,7 +2,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 
 // Import the module under test
-const mainFunction = require('../../../src/domains/commerce.catalog.storefront.shipping/embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main');
+const mainFunction = require('../../../src/domains/commerce.catalog.storefront.shipping/embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main.mock');
 
 describe('embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main', function() {
     let mockContext, mockCallback, routeStub;
@@ -22,7 +22,7 @@ describe('embedded.commerce.catalog.storefront.shipping.shippingExtensibility.ma
 
         // We need to mock the route function since it's internal to the module
         // We'll do this by requiring the module and stubbing its internals
-        const moduleExports = require('../../../src/domains/commerce.catalog.storefront.shipping/embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main');
+        const moduleExports = require('../../../src/domains/commerce.catalog.storefront.shipping/embedded.commerce.catalog.storefront.shipping.shippingExtensibility.main.mock');
         
         // Since route is an internal function, we'll need to test through the public interface
         // and verify the callback behavior
@@ -42,8 +42,8 @@ describe('embedded.commerce.catalog.storefront.shipping.shippingExtensibility.ma
                     items: [{ itemId: 'item1' }],
                     shippingServiceTypes: ['usps_GROUND ADVANTAGE'],
                     shipDate: '2025-06-05T00:00:00Z',
-                    originAddress: { postalOrZipCode: '10016' },
-                    destinationAddress: { postalOrZipCode: '66062' }
+                    originAddress: { postalOrZipCode: 'V38 4H3' },
+                    destinationAddress: { postalOrZipCode: 'M5S 2C6' }
                 }
             };
             
