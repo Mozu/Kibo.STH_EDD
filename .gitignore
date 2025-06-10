@@ -1,5 +1,6 @@
 node_modules/**
 dist/**
+assets/dist/**
 .yo-rc.json
 mozu.config.*
 .idea

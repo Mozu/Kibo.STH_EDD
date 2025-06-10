@@ -42,23 +42,64 @@ describe('embedded.commerce.catalog.storefront.shipping.shippingExtensibility.ma
                     ]
                 },
                 request: {
-                    fulfillmentMethod: 'Ship',
-                    items: [
-                        { itemId: 'item1' },
-                        { itemId: 'item2' }
-                    ],
-                    shippingServiceTypes: ['usps_groundadvantage', 'usps_priority', 'usps_express'],
-                    shipDate: '2025-06-10T00:00:00Z',
-                    originAddress: {
-                        postalOrZipCode: '10016',
-                        city: 'New York',
-                        stateOrProvinceCode: 'NY'
+                    "originLocationCode": "TVHCAMIS",
+                    "originAddress": {
+                        "address1": "14 Stavebank Rd S",
+                        "address2": null,
+                        "address3": null,
+                        "address4": null,
+                        "cityOrTown": "Mississauga",
+                        "stateOrProvince": "ON",
+                        "postalOrZipCode": "L5G 2T1",
+                        "countryCode": "CA",
+                        "addressType": "Commercial",
+                        "isValidated": false
                     },
-                    destinationAddress: {
-                        postalOrZipCode: '90210',
-                        city: 'Beverly Hills',
-                        stateOrProvinceCode: 'CA'
-                    }
+                    "destinationAddress": {
+                        "address1": null,
+                        "address2": null,
+                        "address3": null,
+                        "address4": null,
+                        "cityOrTown": "North York",
+                        "stateOrProvince": "ON",
+                        "postalOrZipCode": "M6A 2T9",
+                        "countryCode": "CA",
+                        "addressType": null,
+                        "isValidated": null
+                    },
+                    "fulfillmentMethod": "Ship",
+                    "shippingServiceTypes": [
+                        "fedex_FEDEX_2_DAY",
+                        "fedex_FEDEX_GROUND",
+                        "fedex_STANDARD_OVERNIGHT"
+                    ],
+                    "shipDate": "2025-06-10T20:56:09Z",
+                    "items": [
+                        {
+                            "itemId": "1",
+                            "unitMeasurements": {
+                                "height": {
+                                    "unit": "kg",
+                                    "value": 1.0
+                                },
+                                "width": {
+                                    "unit": "kg",
+                                    "value": 1.0
+                                },
+                                "length": {
+                                    "unit": "kg",
+                                    "value": 1.0
+                                },
+                                "weight": {
+                                    "unit": "kg",
+                                    "value": 2.0
+                                },
+                                "girth": 5.0
+                            },
+                            "quantity": 4
+                        }
+                    ],
+                    "data": null
                 }
             };
 
@@ -85,14 +126,15 @@ describe('embedded.commerce.catalog.storefront.shipping.shippingExtensibility.ma
             const response = callArgs[1];
             assert(response.transitTimes, 'Response should have transitTimes property');
             assert(Array.isArray(response.transitTimes), 'transitTimes should be an array');
+            assert(response.transitTimes[0].estimatedDeliveryDates[0].deliveryDate =='2025-06-11', 'Estimated delivery date should be 2025-06-11');
 
-            if (response.transitTimes.length > 0) {
-                const carrierTransitTime = response.transitTimes[0];
-                assert(carrierTransitTime.itemIds, 'CarrierTransitTimes should have itemIds');
-                assert(Array.isArray(carrierTransitTime.itemIds), 'itemIds should be an array');
-                assert(carrierTransitTime.estimatedDeliveryDates, 'CarrierTransitTimes should have estimatedDeliveryDates');
-                assert(Array.isArray(carrierTransitTime.estimatedDeliveryDates), 'estimatedDeliveryDates should be an array');
-            }
+           
+            const carrierTransitTime = response.transitTimes[0];
+            assert(carrierTransitTime.itemIds, 'CarrierTransitTimes should have itemIds');
+            assert(Array.isArray(carrierTransitTime.itemIds), 'itemIds should be an array');
+            assert(carrierTransitTime.estimatedDeliveryDates, 'CarrierTransitTimes should have estimatedDeliveryDates');
+            assert(Array.isArray(carrierTransitTime.estimatedDeliveryDates), 'estimatedDeliveryDates should be an array');
+            
         });
 
         it('should handle context with credentials correctly', async function () {

@@ -88,7 +88,7 @@ const mapServiceCodeToName = function(serviceCode) {
 const calculateDeliveryDate = function(plannedShipDate, daysInTransit) {
     const shipDate = new Date(plannedShipDate);
     const deliveryDate = new Date(shipDate);
-    deliveryDate.setDate(shipDate.getDate() + daysInTransit);
+    deliveryDate.setDate(shipDate.getDate() + parseInt(daysInTransit));
     return deliveryDate.toISOString().split('T')[0];
 };
 
